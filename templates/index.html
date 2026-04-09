@@ -4,94 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Scadenze Condominiali</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
-        .container { margin-top: 30px; }
-        .card { margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .table th { background-color: #0d6efd; color: white; }
-        .btn-invia { background-color: #28a745; color: white; }
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; text-align: center; }
+        h1 { color: #0d6efd; }
+        .box { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        a { color: #0d6efd; text-decoration: none; }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1 class="mb-4">📋 Gestione Scadenze Condominiali</h1>
-
-    <!-- Pulsante per inviare promemoria -->
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
-        <a href="{{ url_for('invia_promemoria') }}" class="btn btn-success btn-lg" onclick="return confirm('Inviare i promemoria email ora?')">✉️ Invia Promemoria Ora</a>
+    <h1>🏢 Gestione Scadenze Condominiali</h1>
+    <div class="box">
+        <p>Questa è un'applicazione automatica per la gestione delle scadenze e l'invio di promemoria email.</p>
+        <p>Per utilizzare l'app, clona il repository ed esegui <code>python app.py</code> in locale.</p>
+        <p>📂 <a href="https://github.com/Giu72/amministratore">Vai al repository su GitHub</a></p>
     </div>
-
-    <!-- Tabella delle scadenze -->
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            📅 Elenco Scadenze
-        </div>
-        <div class="card-body">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Email</th><th>Nome</th><th>Descrizione</th><th>Importo</th><th>Data Scadenza</th><th>Stato</th><th>Azioni</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for s in scadenze %}
-                    <tr class="{{ s.row_class }}">
-                        <td>{{ s.condomino_email }}</td>
-                        <td>{{ s.condomino_nome }}</td>
-                        <td>{{ s.descrizione }}</td>
-                        <td>€ {{ "%.2f"|format(s.importo) }}</td>
-                        <td>{{ s.data_scadenza }}</td>
-                        <td>{{ s.stato }}</td>
-                        <td>
-                            <a href="{{ url_for('modifica', idx=loop.index0) }}" class="btn btn-sm btn-warning">✏️</a>
-                            <a href="{{ url_for('elimina', idx=loop.index0) }}" class="btn btn-sm btn-danger" onclick="return confirm('Eliminare?')">🗑️</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Form per aggiungere nuova scadenza -->
-    <div class="card">
-        <div class="card-header bg-secondary text-white">
-            ➕ Aggiungi nuova scadenza
-        </div>
-        <div class="card-body">
-            <form action="{{ url_for('aggiungi') }}" method="post">
-                <div class="row">
-                    <div class="col-md-3 mb-2"><input type="email" name="email" class="form-control" placeholder="Email condomino" required></div>
-                    <div class="col-md-2 mb-2"><input type="text" name="nome" class="form-control" placeholder="Nome" required></div>
-                    <div class="col-md-2 mb-2"><input type="text" name="descrizione" class="form-control" placeholder="Descrizione" required></div>
-                    <div class="col-md-1 mb-2"><input type="number" step="0.01" name="importo" class="form-control" placeholder="Importo" required></div>
-                    <div class="col-md-2 mb-2"><input type="date" name="data_scadenza" class="form-control" required></div>
-                    <div class="col-md-1 mb-2">
-                        <select name="stato" class="form-select">
-                            <option value="non pagato">Non pagato</option>
-                            <option value="pagato">Pagato</option>
-                        </select>
-                    </div>
-                    <div class="col-md-1 mb-2"><button type="submit" class="btn btn-primary w-100">➕ Aggiungi</button></div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Messaggi flash -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
